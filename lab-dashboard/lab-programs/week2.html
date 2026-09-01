@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 2 – Nested Frames | WTS Lab</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Lab header */
+    .lab-header {
+      background: linear-gradient(135deg, #7c3aed, #2563eb);
+      color: #fff;
+      padding: 14px 20px;
+      flex-shrink: 0;
+    }
+    .lab-header .week-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #c4b5fd; }
+    .lab-header h1 { font-size: 18px; font-weight: 700; }
+    .lab-header p  { font-size: 12px; color: #bfdbfe; margin-top: 3px; }
+
+    /* Title bar (Frame 1 equivalent) */
+    .title-bar {
+      background: linear-gradient(90deg, #1e3a8a, #1d4ed8);
+      padding: 10px 20px;
+      border-bottom: 2px solid #3b82f6;
+      flex-shrink: 0;
+    }
+    .marquee-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: #93c5fd;
+      letter-spacing: 0.05em;
+      display: inline-block;
+      animation: scrollText 18s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes scrollText {
+      0%   { transform: translateX(100vw); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Main frame layout */
+    .frame-layout {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 400px;
+    }
+
+    /* Frame 2 – Sidebar Nav */
+    .nav-frame {
+      width: 200px;
+      background: #1e1b4b;
+      padding: 16px 12px;
+      border-right: 2px solid #4338ca;
+      flex-shrink: 0;
+    }
+    .nav-frame h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #818cf8;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #312e81;
+    }
+    .nav-frame ul { list-style: none; }
+    .nav-frame li { margin-bottom: 4px; }
+    .nav-frame a {
+      display: block;
+      padding: 9px 12px;
+      border-radius: 8px;
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, transform 0.15s;
+    }
+    .nav-frame a:hover,
+    .nav-frame a.active { background: #312e81; color: #e0e7ff; transform: translateX(4px); }
+
+    /* Frame 3 – Content */
+    .content-frame {
+      flex: 1;
+      padding: 20px 24px;
+      overflow-y: auto;
+      background: #0f172a;
+    }
+
+    /* Content styles */
+    .content-pane { display: none; }
+    .content-pane.active { display: block; }
+
+    .content-pane h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #818cf8;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #312e81;
+    }
+    .content-pane p { font-size: 14px; line-height: 1.7; color: #cbd5e1; margin-bottom: 10px; }
+
+    /* Departments table */
+    .dept-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1e293b;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .dept-table th {
+      background: #312e81;
+      color: #e0e7ff;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+    }
+    .dept-table td { padding: 10px 16px; font-size: 13px; color: #cbd5e1; border-bottom: 1px solid #1e3a5f; }
+    .dept-table tr:hover td { background: #1e3a8a20; }
+
+    /* Address */
+    .address-card {
+      background: #1e293b;
+      border-radius: 10px;
+      padding: 16px 20px;
+      border-left: 4px solid #6366f1;
+    }
+    .address-card p { margin-bottom: 6px; font-size: 13px; color: #94a3b8; }
+    .address-card a { color: #818cf8; text-decoration: none; }
+
+    /* Feedback */
+    .feedback-card {
+      background: #1e293b;
+      border-radius: 10px;
+      padding: 16px 20px;
+      border-left: 4px solid #22d3ee;
+    }
+    .feedback-card a { color: #22d3ee; }
+
+    /* Gallery */
+    .gallery { display: flex; gap: 12px; flex-wrap: wrap; }
+    .gallery-item {
+      width: 120px; height: 80px;
+      background: linear-gradient(135deg, #312e81, #1e3a8a);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+
+    /* CSS info */
+    .css-demo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .css-card {
+      padding: 14px;
+      border-radius: 10px;
+      background: #1e293b;
+      border: 1px solid #312e81;
+      font-size: 12px;
+    }
+    .css-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .css-card.inline h3 { color: #f59e0b; }
+    .css-card.embedded h3 { color: #10b981; }
+    .css-card.external h3 { color: #6366f1; }
+    .css-card p { color: #94a3b8; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <div class="lab-header">
+    <div class="week-tag">Week 2 · Web Technologies Lab · VCE R22</div>
+    <h1>🖼 Nested Frames – College Website</h1>
+    <p>Nested frames: title bar (Frame 1), navigation links (Frame 2), and content display (Frame 3) with inline, embedded and external CSS.</p>
+  </div>
+
+  <!-- Frame 1: Title -->
+  <div class="title-bar">
+    <div style="overflow:hidden">
+      <span class="marquee-text">VARDHAMAN COLLEGE OF ENGINEERING &nbsp;&nbsp;&nbsp;—&nbsp;&nbsp;&nbsp; Autonomous Institution Affiliated to JNTUH &nbsp;&nbsp;&nbsp;—&nbsp;&nbsp;&nbsp; NAAC A++ Grade &nbsp;&nbsp;&nbsp;—&nbsp;&nbsp;&nbsp; ISO 9001:2015 Certified &nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- Frame Layout -->
+  <div class="frame-layout">
+
+    <!-- Frame 2: Navigation -->
+    <nav class="nav-frame">
+      <h2>Navigation</h2>
+      <ul>
+        <li><a onclick="showPane('intro')" class="active" id="lnk-intro">Introduction</a></li>
+        <li><a onclick="showPane('dept')"  id="lnk-dept">Departments</a></li>
+        <li><a onclick="showPane('addr')"  id="lnk-addr">Address</a></li>
+        <li><a onclick="showPane('feed')"  id="lnk-feed">Feedback</a></li>
+        <li><a onclick="showPane('gall')"  id="lnk-gall">Gallery</a></li>
+        <li><a onclick="showPane('css')"   id="lnk-css">CSS Styles</a></li>
+      </ul>
+    </nav>
+
+    <!-- Frame 3: Content -->
+    <main class="content-frame">
+
+      <div class="content-pane active" id="pane-intro">
+        <h2>Introduction</h2>
+        <p>The college is surrounded by a green and beautiful landscape that will make your stay pleasant and comfortable. VCE enjoys the geographical advantage as it is well connected by air, rail, and road.</p>
+        <p>The Hyderabad international airport at Shamshabad is just a 30-minute drive, and the college campus is close to Bangalore highway (NH-7) making it accessible to several important centres in and around the city.</p>
+        <p>On the academic front, we have provided the best quality class rooms, laboratories, and library facilities. The campus boasts well-furnished hostel, sports ground, gymkhana, guest-house for parents and visitors, large auditorium, bank, canteen, first-aid, and an open theatre.</p>
+      </div>
+
+      <div class="content-pane" id="pane-dept">
+        <h2>Departments</h2>
+        <table class="dept-table">
+          <tr><th>Dept Code</th><th>Department Name</th></tr>
+          <tr><td>01</td><td>Computer Science &amp; Engineering (CSE)</td></tr>
+          <tr><td>02</td><td>Electronics &amp; Communication Engg (ECE)</td></tr>
+          <tr><td>03</td><td>Electrical &amp; Electronics Engg (EEE)</td></tr>
+          <tr><td>04</td><td>Information Technology (IT)</td></tr>
+          <tr><td>05</td><td>Mechanical Engineering (MECH)</td></tr>
+          <tr><td>06</td><td>Aeronautical Engineering (AERO)</td></tr>
+        </table>
+      </div>
+
+      <div class="content-pane" id="pane-addr">
+        <h2>Address</h2>
+        <div class="address-card">
+          <p>📍 Kacharam, Shamshabad, Hyderabad – 501218</p>
+          <p>🌐 Telangana, India</p>
+          <p>📞 +91 8688901557</p>
+          <p>🌍 <a href="https://www.vardhaman.org" target="_blank">www.vardhaman.org</a></p>
+        </div>
+      </div>
+
+      <div class="content-pane" id="pane-feed">
+        <h2>Feedback</h2>
+        <div class="feedback-card">
+          <p>We value your feedback! Please share your thoughts and suggestions.</p>
+          <p>📧 Email us at: <a href="mailto:info@vardhaman.org">info@vardhaman.org</a></p>
+          <p style="margin-top:10px;color:#94a3b8;font-size:12px;">Your feedback helps us improve and serve you better.</p>
+        </div>
+      </div>
+
+      <div class="content-pane" id="pane-gall">
+        <h2>Gallery</h2>
+        <p style="margin-bottom:12px;font-size:13px;color:#94a3b8;">College Campus Views</p>
+        <div class="gallery">
+          <div class="gallery-item">🏛️</div>
+          <div class="gallery-item">🔬</div>
+          <div class="gallery-item">📚</div>
+          <div class="gallery-item">🏟️</div>
+          <div class="gallery-item">🏠</div>
+          <div class="gallery-item">🌳</div>
+        </div>
+      </div>
+
+      <div class="content-pane" id="pane-css">
+        <h2>CSS Styling Methods</h2>
+        <p style="margin-bottom:12px;font-size:13px;color:#94a3b8;">This page demonstrates all three types of CSS styling.</p>
+        <div class="css-demo">
+          <div class="css-card inline">
+            <h3>Inline CSS</h3>
+            <p>Applied directly on HTML elements using the <code>style=""</code> attribute. Highest specificity.</p>
+          </div>
+          <div class="css-card embedded">
+            <h3>Embedded CSS</h3>
+            <p>Written inside a <code>&lt;style&gt;</code> tag in the <code>&lt;head&gt;</code> section. Applies to the current page.</p>
+          </div>
+          <div class="css-card external">
+            <h3>External CSS</h3>
+            <p>Linked via <code>&lt;link rel="stylesheet"&gt;</code>. Best for reusability and maintainability across pages.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function showPane(id) {
+      document.querySelectorAll('.content-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-frame a').forEach(a => a.classList.remove('active'));
+      document.getElementById('pane-' + id).classList.add('active');
+      document.getElementById('lnk-' + id).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

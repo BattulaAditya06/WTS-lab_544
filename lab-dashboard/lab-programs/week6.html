@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>Week 6 - XML Book Store</title>
+</head>
+<body bgcolor="lightyellow">
+
+<h2 align="center">Week 6 - XML Book Store (DTD &amp; Schema Validation)</h2>
+<br>
+
+<h3>Book Information (Output)</h3>
+<table border="1" cellpadding="8" cellspacing="0" align="center">
+<tr bgcolor="lightblue">
+  <th>Book ID</th>
+  <th>Title</th>
+  <th>Author</th>
+  <th>ISBN</th>
+  <th>Publisher</th>
+  <th>Edition</th>
+  <th>Price (Rs.)</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td>web programming</td>
+  <td>chrisbates</td>
+  <td>123-456-789</td>
+  <td>wiley</td>
+  <td>3</td>
+  <td>350</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>internet worldwideweb</td>
+  <td>ditel &amp; ditel</td>
+  <td>123-456-781</td>
+  <td>person</td>
+  <td>3</td>
+  <td>450</td>
+</tr>
+</table>
+
+<br><hr>
+<h3>book.xml</h3>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;!DOCTYPE book SYSTEM "books.dtd"&gt;
+&lt;bookstore&gt;
+    &lt;book&gt;
+        &lt;title&gt;web programming&lt;/title&gt;
+        &lt;author&gt;chrisbates&lt;/author&gt;
+        &lt;ISBN&gt;123-456-789&lt;/ISBN&gt;
+        &lt;publisher&gt;wiley&lt;/publisher&gt;
+        &lt;edition&gt;3&lt;/edition&gt;
+        &lt;price&gt;350&lt;/price&gt;
+    &lt;/book&gt;
+    &lt;book&gt;
+        &lt;title&gt;internet worldwideweb&lt;/title&gt;
+        &lt;author&gt;ditel&amp;amp;ditel&lt;/author&gt;
+        &lt;ISBN&gt;123-456-781&lt;/ISBN&gt;
+        &lt;publisher&gt;person&lt;/publisher&gt;
+        &lt;edition&gt;3&lt;/edition&gt;
+        &lt;price&gt;450&lt;/price&gt;
+    &lt;/book&gt;
+&lt;/bookstore&gt;
+</pre>
+
+<hr>
+<h3>books.dtd</h3>
+<pre>
+&lt;!ELEMENT bookstore (book+)&gt;
+&lt;!ELEMENT book (title,author,ISBN,publisher,edition,price)&gt;
+&lt;!ELEMENT title (#PCDATA)&gt;
+&lt;!ELEMENT author (#PCDATA)&gt;
+&lt;!ELEMENT ISBN (#PCDATA)&gt;
+&lt;!ELEMENT publisher (#PCDATA)&gt;
+&lt;!ELEMENT edition (#PCDATA)&gt;
+&lt;!ELEMENT price (#PCDATA)&gt;
+</pre>
+
+<hr>
+<h3>XML Schema (books.xsd)</h3>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+    &lt;xs:element name="bookstore"&gt;
+        &lt;xs:complexType&gt;
+        &lt;xs:sequence&gt;
+            &lt;xs:element name="book" maxOccurs="unbounded"&gt;
+                &lt;xs:complexType&gt;
+                    &lt;xs:sequence&gt;
+                        &lt;xs:element name="title"     type="xs:string"&gt;&lt;/xs:element&gt;
+                        &lt;xs:element name="author"    type="xs:string"&gt;&lt;/xs:element&gt;
+                        &lt;xs:element name="ISBN"      type="xs:string"&gt;&lt;/xs:element&gt;
+                        &lt;xs:element name="publisher" type="xs:string"&gt;&lt;/xs:element&gt;
+                        &lt;xs:element name="edition"   type="xs:int"&gt;&lt;/xs:element&gt;
+                        &lt;xs:element name="price"     type="xs:decimal"&gt;&lt;/xs:element&gt;
+                    &lt;/xs:sequence&gt;
+                &lt;/xs:complexType&gt;
+            &lt;/xs:element&gt;
+        &lt;/xs:sequence&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;
+&lt;/xs:schema&gt;
+</pre>
+
+<div style="position: fixed; bottom: 16px; right: 16px; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; border: 1px solid #374151; line-height: 1.4;">
+    <strong style="font-weight: 600;">M. Charan Chandra</strong><br>
+    <span style="color: #9ca3af; font-size: 11px;">25885A0548 | CSE-G</span>
+</div>
+</body>
+</html>

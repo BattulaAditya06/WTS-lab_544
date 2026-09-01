@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>Week 7 - XSLT Student Data</title>
+</head>
+<body bgcolor="lightyellow">
+
+<h2 align="center">Week 7 - XSLT Student Information Table</h2>
+<br>
+
+<h3>Output (Result of XSLT Transformation)</h3>
+<table border="1" cellpadding="8" cellspacing="0" align="center">
+<tr bgcolor="lightblue">
+  <th>Title</th>
+  <th>Author</th>
+  <th>Publisher</th>
+  <th>Pages</th>
+  <th>Price (Rs.)</th>
+  <th>Course</th>
+</tr>
+<tr>
+  <td>Web Technologies</td>
+  <td>Kogent Learning Solutions</td>
+  <td>DreamTech</td>
+  <td>1200</td>
+  <td>2552.75</td>
+  <td>cse</td>
+</tr>
+<tr>
+  <td>Operating Systems</td>
+  <td>Galvin</td>
+  <td>TMcH</td>
+  <td>900</td>
+  <td>850.50</td>
+  <td>cse</td>
+</tr>
+<tr>
+  <td>Control Systems</td>
+  <td>DavindHerny</td>
+  <td>BPB</td>
+  <td>600</td>
+  <td>1250.70</td>
+  <td>ece</td>
+</tr>
+</table>
+
+<br><hr>
+<h3>books.xsd</h3>
+<pre>
+&lt;?xml version="1.0"?&gt;
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+&lt;xs:element name="catalog"&gt;
+&lt;xs:complexType&gt;
+&lt;xs:sequence&gt;
+&lt;xs:element ref="book" minOccurs="1" maxOccurs="unbounded"/&gt;
+&lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+&lt;/xs:element&gt;
+&lt;xs:element name="book"&gt;
+&lt;xs:complexType&gt;
+&lt;xs:sequence&gt;
+&lt;xs:element name="title"     type="xs:string"  minOccurs="1" maxOccurs="1"/&gt;
+&lt;xs:element name="author"    type="xs:string"  minOccurs="1" maxOccurs="1"/&gt;
+&lt;xs:element name="publisher" type="xs:string"  minOccurs="1" maxOccurs="1"/&gt;
+&lt;xs:element name="pages"     type="xs:integer" minOccurs="1" maxOccurs="1"/&gt;
+&lt;xs:element name="price"     type="xs:decimal" minOccurs="1" maxOccurs="1"/&gt;
+&lt;/xs:sequence&gt;
+&lt;xs:attribute name="course" type="xs:string" use="required"/&gt;
+&lt;/xs:complexType&gt;
+&lt;/xs:element&gt;
+&lt;/xs:schema&gt;
+</pre>
+
+<hr>
+<h3>booksdemo.xml</h3>
+<pre>
+&lt;?xml version="1.0" ?&gt;
+&lt;?xml-stylesheet type="text/css" href="books.css" ?&gt;
+&lt;catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="books.xsd"&gt;
+&lt;book course="cse"&gt;
+&lt;title&gt; Web Technologies &lt;/title&gt;
+&lt;author&gt;Kogent Learning Solutions&lt;/author&gt;
+&lt;publisher&gt;DreamTech&lt;/publisher&gt;
+&lt;pages&gt;1200&lt;/pages&gt;
+&lt;price&gt;2552.75&lt;/price&gt;
+&lt;/book&gt;
+&lt;book course="cse"&gt;
+&lt;title&gt; Operating Systems &lt;/title&gt;
+&lt;author&gt;Galvin&lt;/author&gt;
+&lt;publisher&gt;TMcH&lt;/publisher&gt;
+&lt;pages&gt;900&lt;/pages&gt;
+&lt;price&gt;850.50&lt;/price&gt;
+&lt;/book&gt;
+&lt;book course="ece"&gt;
+&lt;title&gt; Control Systems &lt;/title&gt;
+&lt;author&gt;DavindHerny&lt;/author&gt;
+&lt;publisher&gt;BPB&lt;/publisher&gt;
+&lt;pages&gt;600&lt;/pages&gt;
+&lt;price&gt;1250.70&lt;/price&gt;
+&lt;/book&gt;
+&lt;/catalog&gt;
+</pre>
+
+<hr>
+<h3>books.css (XML element styling)</h3>
+<pre>
+title     {font-family:serif;  color:green; font-size:18pt}
+author    {font-family:arial;  color:red;   font-size:12pt}
+publisher {font-family:arial;  color:green; font-size:12pt}
+pages     {font-family:arial;  color:#AABB12; font-size:12pt}
+price     {font-family:arial;  color:blue;  font-size:12pt}
+</pre>
+
+<div style="position: fixed; bottom: 16px; right: 16px; background: #111827; color: #fff; padding: 10px 14px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; border: 1px solid #374151; line-height: 1.4;">
+    <strong style="font-weight: 600;">M. Charan Chandra</strong><br>
+    <span style="color: #9ca3af; font-size: 11px;">25885A0548 | CSE-G</span>
+</div>
+</body>
+</html>
